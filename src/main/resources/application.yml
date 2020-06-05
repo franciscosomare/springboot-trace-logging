@@ -1,0 +1,36 @@
+server:
+    port: 8080
+    servlet:
+      context-path: /loggingapp
+spring:
+    application:
+      name: loggingapp
+    main:
+      banner-mode: "off"
+    jmx:
+      enabled: false
+    jpa:
+      show-sql: false
+    h2:
+      console:
+        enabled: true
+    rabbitmq:
+      username: guest
+      password: guest
+      host: localhost
+      port: 15672
+
+logging:
+  pattern:
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    root: ERROR
+    org.springframework.web: INFO
+    org.hibernate: INFO
+    springfox.documentation: INFO
+    com.zaxxer.hikari: INFO
+    org.springframework.data: DEBUG
+    org.hibernate.engine.jdbc.spi: WARN
+    com.arjuna.ats.arjuna: WARN
+    org.hibernate.internal: ERROR
+    org.hibernate.engine.jdbc.batch.internal: INFO

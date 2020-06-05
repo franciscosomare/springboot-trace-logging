@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="CONSOLE"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                {"time": "%date{ISO8601}", "thread": "%thread", "level": "%level", "class":
+                "%logger{36}", "message": "%message"}\n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="AMQP"
+              class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+        <layout>
+            <pattern>
+                {
+                "time": "%date{ISO8601}",
+                "thread": "%thread",
+                "level": "%level",
+                "servicio": "%X{servicio}"
+                }
+            </pattern>
+        </layout>
+
+        <!-- RabbitMQ connection -->
+        <host>localhost</host>
+        <port>15672</port>
+        <username>guest</username>
+        <password>guest</password>
+
+        <generateId>true</generateId>
+        <charset>UTF-8</charset>
+        <durable>true</durable>
+        <deliveryMode>PERSISTENT</deliveryMode>
+    </appender>
+
+    <logger name="org.springframework.web" additivity="false"
+            level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
+    <logger name="org.springframework.amqp" additivity="false"
+            level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
+
+    <logger name="com.springboot.message" additivity="false"
+            level="info">
+        <appender-ref ref="AMQP" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+</configuration>

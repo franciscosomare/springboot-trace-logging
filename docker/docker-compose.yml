@@ -1,0 +1,75 @@
+version: '3.1'
+services:
+
+  loggingapp:
+    build: ../
+    container_name: loggingapp
+    environment:
+      - "JAEGER_AGENT_HOST=jaeger"
+      - "JAEGER_AGENT_PORT=6831"
+      - "SPRING_RABBITMQ_HOST=rabbitmq"
+      - "SPRING_RABBITMQ_PORT=5672"
+    ports:
+      - "8080:8080"
+      - "8787:8787"
+    restart: always
+    links:
+      - jaeger
+    depends_on:
+      - postgresqldb
+      - rabbitmq
+
+  postgresqldb:
+    image: postgres:10.7
+    container_name: postgresqldb
+    environment:
+      - POSTGRES_USER=siva
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=appdb
+    ports:
+      - "5432:5432"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.0
+    restart: always
+    container_name: elasticsearch
+    hostname: els
+    environment:
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=false"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.8.0
+    environment:
+      - "SERVER_NAME=kibana"
+      - "ELASTICSEARCH_HOSTS=http://elasticsearch:9200"
+    ports:
+      - 5601:5601
+    links:
+      - elasticsearch
+
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.12
+    environment:
+      - "SPAN_STORAGE_TYPE=elasticsearch"
+      - "ES_SERVER_URLS=http://elasticsearch:9200"
+      - "ES_TAGS_AS_FIELDS_ALL=true"
+    ports:
+      - "16686:16686"
+    restart: on-failure
+    links:
+      - elasticsearch
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"

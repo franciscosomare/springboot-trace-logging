@@ -23,7 +23,7 @@ services:
     image: postgres:10.7
     container_name: postgresqldb
     environment:
-      - POSTGRES_USER=siva
+      - POSTGRES_USER=root
       - POSTGRES_PASSWORD=secret
       - POSTGRES_DB=appdb
     ports:

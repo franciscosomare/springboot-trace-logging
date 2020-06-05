@@ -14,7 +14,7 @@ public interface UserService {
 
     public UserEntity saveUser(UserRequest userRequest);
 
-    public UserEntity updateUser(UserRequest userRequest, Long id);
+    public UserEntity updateUser(UserRequest userRequest, Long id) throws Exception;
 
     public void deleteUserById(Long id);
 }

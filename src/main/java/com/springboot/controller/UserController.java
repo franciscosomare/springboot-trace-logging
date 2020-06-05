@@ -2,7 +2,6 @@ package com.springboot.controller;
 
 import com.springboot.constant.Constant;
 import com.springboot.domain.UserEntity;
-import com.springboot.exception.ExceptionResponse;
 import com.springboot.message.MessageProducer;
 import com.springboot.model.UserRequest;
 import com.springboot.model.UserResponse;
@@ -60,7 +59,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User encontrada", response = UserEntity.class),
             @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 500, message = "Error en el servidor", response = ExceptionResponse.class)})
+            @ApiResponse(code = 500, message = "Error en el servidor", response = Exception.class)})
     public ResponseEntity<UserEntity> getUserById(@PathVariable Long id) {
         Span span = tracer.buildSpan("GET User/" + id).start();
 
@@ -78,7 +77,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "User registrada", response = UserRequest.class),
             @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 500, message = "Error en el servidor", response = ExceptionResponse.class)})
+            @ApiResponse(code = 500, message = "Error en el servidor", response = Exception.class)})
     public ResponseEntity<UserResponse> createUser(@RequestBody @Validated UserRequest userRequest) {
         Span span = tracer.buildSpan("POST User").start();
 
@@ -94,7 +93,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User actualizada", response = UserRequest.class),
             @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 500, message = "Error en el servidor", response = ExceptionResponse.class)})
+            @ApiResponse(code = 500, message = "Error en el servidor", response = Exception.class)})
     public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody UserRequest userRequest) throws Exception {
         Span span = tracer.buildSpan("UPDATE User/" + id).start();
         messageProducer.sendMessage("UPDATE User" + id + " - MESSAGE TEST");
@@ -108,7 +107,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User eliminada", response = UserRequest.class),
             @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 500, message = "Error en el servidor", response = ExceptionResponse.class)})
+            @ApiResponse(code = 500, message = "Error en el servidor", response = Exception.class)})
     public ResponseEntity<UserResponse> deleteUser(@PathVariable Long id) {
         Span span = tracer.buildSpan("DELETE User/" + id).start();
         messageProducer.sendMessage("DELETE User" + id + " - MESSAGE TEST");

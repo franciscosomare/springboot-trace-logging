@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.springboot.service.UserService;
-import com.springboot.exception.ModelNotFoundException;
 import com.springboot.constant.Constant;
 
 import java.util.List;
@@ -40,13 +39,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public UserEntity updateUser(UserRequest userRequest, Long id) {
+    public UserEntity updateUser(UserRequest userRequest, Long id) throws Exception {
         return userRepository.findById(id).map(userRequestObje -> {
             userRequest.setId(id);
             UserEntity user = userDTOToUserEntityMapper.userDTOToUserEntityMapper(userRequest);
             return userRepository.save(user);
         })
-        .orElseThrow(() -> new ModelNotFoundException(Constant.PERSONA_NOT_FOUND));
+        .orElseThrow(() -> new Exception(Constant.PERSONA_NOT_FOUND));
     }
 
     public void deleteUserById(Long id) {

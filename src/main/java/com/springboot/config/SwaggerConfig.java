@@ -29,7 +29,7 @@ public class SwaggerConfig {
                 .title("API REST services")
                 .description("Especificacion de REST API services")
                 .termsOfServiceUrl("Terminos de Servicio")
-                .license("Financiera Oh")
+                .license("test")
                 .version("1.0")
                 .build();
     }

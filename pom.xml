@@ -19,7 +19,7 @@
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <problem-spring-web.version>0.25.2</problem-spring-web.version>
         <springboot-tc-starter.version>1.36</springboot-tc-starter.version>
-        <swagger.version>2.9.2</swagger.version>
+        <swagger.version>2.10.0</swagger.version>
     </properties>
 
     <dependencies>
